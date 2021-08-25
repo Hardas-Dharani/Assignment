@@ -21,7 +21,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 130),
+                      padding: const EdgeInsets.only(left: 130),
                       child: Text(
                         "Transaction Detail",
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -31,14 +31,14 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child: Text(transactionModel!.description.toString()),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const  EdgeInsets.only(left: 30),
                       child: Text(
                           "Amount : ${transactionModel!.amount.toString()}"),
                     ),
@@ -46,7 +46,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child:
                           Text("Date : ${transactionModel!.date.toString()}"),
                     ),
@@ -54,7 +54,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child: Text(
                           "Curency : ${transactionModel!.currencyCode.toString()}"),
                     ),
@@ -62,7 +62,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child:
                           Text("IBAN : ${transactionModel!.iban.toString()}"),
                     ),
@@ -70,7 +70,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child: Text(
                         "Type : ${transactionModel!.type.toString()}",
                       ),
@@ -79,7 +79,7 @@ class DetailPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child: Text("BIC : ${transactionModel!.bic.toString()}"),
                     ),
                   ),

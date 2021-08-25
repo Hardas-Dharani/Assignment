@@ -18,24 +18,59 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  List<TransactionModel> _searchResult = [];
+  TextEditingController controller = new TextEditingController();
+  List<TransactionModel?>? _searchResult = [];
   onSearchTextChanged(String text) async {
-    _searchResult.clear();
+    _searchResult!.clear();
     if (text.isEmpty) {
       setState(() {});
       return;
     }
-    Provider.of<TransactionProvider?>(context)!
+    var string=Provider.of<TransactionProvider?>(context,listen: false)!
         .transactionModel!
         .forEach((transdetail) {
       if (transdetail!.description!.contains(text))
-        _searchResult.add(transdetail);
+        _searchResult!.add(transdetail);
     });
 
     setState(() {});
   }
-
-  TextEditingController controller = new TextEditingController();
+  Widget listViewShow(List<TransactionModel?>? listModel){
+    return ListView.builder(
+                            itemCount: listModel!.length,
+                            itemBuilder: (context, index) {
+                              String? date =
+                                  listModel[index]!.date.toString();
+                              String? amount =
+                                  listModel[index]!.amount.toString();
+                              String? type = listModel[index]!
+                                  .type
+                                  .toString()
+                                  .toUpperCase();
+                              String? currency =
+                                  listModel[index]!.currencyCode.toString();
+                              return Card(
+                                elevation: 2,
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                                transactionModel:
+                                                    listModel[index],
+                                              )),
+                                    );
+                                  },
+                                  title: Text(amount),
+                                  leading: Text(date),
+                                  trailing: Text(type),
+                                  subtitle: Text(currency),
+                                ),
+                              );
+                            });
+                        
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,21 +81,22 @@ class _MyAppState extends State<MyApp> {
           child: Scaffold(
             body: Column(
               children: [
-                new Container(
+                SizedBox(height: 35),
+                 Container(
                   color: Theme.of(context).primaryColor,
-                  child: new Padding(
+                  child:  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: new Card(
-                      child: new ListTile(
-                        leading: new Icon(Icons.search),
-                        title: new TextField(
+                    child:  Card(
+                      child:  ListTile(
+                        leading:  Icon(Icons.search),
+                        title:  TextField(
                           controller: controller,
-                          decoration: new InputDecoration(
+                          decoration:  InputDecoration(
                               hintText: 'Search', border: InputBorder.none),
                           onChanged: onSearchTextChanged,
                         ),
-                        trailing: new IconButton(
-                          icon: new Icon(Icons.cancel),
+                        trailing:  IconButton(
+                          icon:  Icon(Icons.cancel),
                           onPressed: () {
                             controller.clear();
                             onSearchTextChanged('');
@@ -71,77 +107,10 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 Expanded(
-                    child: _searchResult.length != 0 ||
+                    child: _searchResult!.length != 0 ||
                             controller.text.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: _searchResult.length,
-                            itemBuilder: (context, index) {
-                              String? date =
-                                  _searchResult[index].date.toString();
-                              String? amount =
-                                  _searchResult[index].amount.toString();
-                              String? type = _searchResult[index]
-                                  .type
-                                  .toString()
-                                  .toUpperCase();
-                              String? currency =
-                                  _searchResult[index].currencyCode.toString();
-                              return Card(
-                                elevation: 2,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(
-                                                transactionModel:
-                                                    _searchResult[index],
-                                              )),
-                                    );
-                                  },
-                                  title: Text(amount),
-                                  leading: Text(date),
-                                  trailing: Text(type),
-                                  subtitle: Text(currency),
-                                ),
-                              );
-                            })
-                        : ListView.builder(
-                            itemCount: myModel.transactionModel!.length,
-                            itemBuilder: (context, index) {
-                              String? date = myModel
-                                  .transactionModel![index]!.date
-                                  .toString();
-                              String? amount = myModel
-                                  .transactionModel![index]!.amount
-                                  .toString();
-                              String? type = myModel
-                                  .transactionModel![index]!.type
-                                  .toString()
-                                  .toUpperCase();
-                              String? currency = myModel
-                                  .transactionModel![index]!.currencyCode
-                                  .toString();
-                              return Card(
-                                elevation: 2,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(
-                                                transactionModel: myModel
-                                                    .transactionModel![index],
-                                              )),
-                                    );
-                                  },
-                                  title: Text(amount),
-                                  leading: Text(date),
-                                  trailing: Text(type),
-                                  subtitle: Text(currency),
-                                ),
-                              );
-                            }))
+                        ? listViewShow(_searchResult)
+                        :listViewShow( myModel.transactionModel) )
               ],
             ),
           ),
